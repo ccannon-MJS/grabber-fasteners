@@ -6,162 +6,191 @@
 <title>Grabber Fastener SKU Reference — Commercial Construction</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; font-size: 14px; }
+ 
   header { background: #1a1a1a; color: #fff; padding: 1.25rem 1.5rem; }
-  header h1 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
-  header p { font-size: 12px; color: #888; margin-top: 3px; }
+  header h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+  header p { font-size: 12px; color: #aaa; margin-top: 4px; }
+ 
   .main { max-width: 1100px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+ 
   .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
-  .search-box { flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; background: #fff; outline: none; }
-  .search-box:focus { border-color: #888; }
-  .count { font-size: 12px; color: #888; white-space: nowrap; }
+  #search {
+    flex: 1; min-width: 200px; padding: 9px 14px;
+    border: 1px solid #ddd; border-radius: 8px;
+    font-size: 13px; background: #fff; outline: none; color: #1a1a1a;
+  }
+  #search:focus { border-color: #888; box-shadow: 0 0 0 3px rgba(0,0,0,0.06); }
+  #search::placeholder { color: #aaa; }
+  #count { font-size: 12px; color: #888; white-space: nowrap; }
+ 
   .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
-  .pill { font-size: 11px; padding: 5px 12px; border-radius: 20px; border: 1px solid #ddd; background: #fff; color: #555; cursor: pointer; white-space: nowrap; transition: all 0.12s; }
+  .pill {
+    font-size: 11px; padding: 5px 13px; border-radius: 20px;
+    border: 1px solid #ddd; background: #fff; color: #555;
+    cursor: pointer; white-space: nowrap; transition: all 0.12s; line-height: 1;
+  }
   .pill.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
-  .pill:hover:not(.active) { background: #f0f0f0; }
-  .section { margin-bottom: 1.5rem; }
-  .section-title { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; padding-bottom: 8px; border-bottom: 1px solid #e5e5e5; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .pill:hover:not(.active) { background: #f0f0ee; border-color: #bbb; }
+ 
+  .section { margin-bottom: 1.75rem; }
+  .section-title {
+    font-size: 10px; font-weight: 700; color: #888;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding-bottom: 8px; border-bottom: 1px solid #e5e5e2;
+    margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  }
   .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px; }
-  .card { background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; padding: 11px 13px; display: flex; gap: 10px; align-items: flex-start; transition: border-color 0.12s; }
-  .card:hover { border-color: #bbb; }
-  .sku-badge { font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 10px; font-weight: 600; background: #f4f4f4; border: 1px solid #e0e0e0; border-radius: 4px; padding: 3px 7px; white-space: nowrap; color: #333; flex-shrink: 0; margin-top: 1px; }
+  .section-count { font-weight: 400; color: #bbb; }
+ 
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 8px; }
+ 
+  .card {
+    background: #fff; border: 1px solid #e8e8e5; border-radius: 10px;
+    padding: 12px 14px; display: flex; gap: 11px; align-items: flex-start;
+    transition: border-color 0.12s, box-shadow 0.12s;
+  }
+  .card:hover { border-color: #c0bdb8; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+ 
+  .sku-badge {
+    font-family: 'SF Mono', 'Fira Mono', 'Menlo', monospace;
+    font-size: 10px; font-weight: 700;
+    background: #f4f4f1; border: 1px solid #e0dfdb;
+    border-radius: 5px; padding: 3px 7px;
+    white-space: nowrap; color: #333; flex-shrink: 0; margin-top: 1px;
+  }
+ 
   .card-body { flex: 1; min-width: 0; }
   .card-name { font-size: 12px; font-weight: 600; color: #1a1a1a; line-height: 1.4; margin-bottom: 4px; }
-  .card-desc { font-size: 11px; color: #555; line-height: 1.55; }
-  .card-meta { font-size: 10px; color: #999; margin-top: 5px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .tag { display: inline-block; font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .tag-int { background: #e6f4ea; color: #2d6a4f; }
-  .tag-ext { background: #fff3e0; color: #8b5000; }
-  .empty { text-align: center; color: #999; font-size: 14px; padding: 3rem; }
-  footer { text-align: center; font-size: 11px; color: #aaa; margin-top: 2rem; }
+  .card-desc { font-size: 11px; color: #666; line-height: 1.6; }
+  .card-meta { font-size: 10px; color: #aaa; margin-top: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+ 
+  .tag { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tag-int { background: #e8f5ee; color: #2a6644; }
+  .tag-ext { background: #fff4e0; color: #8a5200; }
+ 
+  .empty { text-align: center; color: #aaa; font-size: 14px; padding: 3rem 1rem; }
+ 
+  footer { text-align: center; font-size: 11px; color: #bbb; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #e8e8e5; }
+ 
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 16px; }
+  }
 </style>
 </head>
 <body>
-
+ 
 <header>
   <h1>Grabber Fastener SKU Reference</h1>
-  <p>Commercial Construction — Quick Reference | Source: grabberpro.com</p>
+  <p>Commercial Construction &nbsp;·&nbsp; Quick Reference &nbsp;·&nbsp; Source: grabberpro.com</p>
 </header>
-
+ 
 <div class="main">
   <div class="controls">
-    <input type="text" class="search-box" id="search" placeholder="Search by SKU, name, or application…" oninput="render()">
-    <span class="count" id="count"></span>
+    <input type="text" id="search" placeholder="Search by SKU, name, or application…" oninput="render()">
+    <span id="count"></span>
   </div>
   <div class="filter-row" id="filters"></div>
   <div id="output"></div>
-  <footer>Grabber Construction Products · grabberpro.com · All fasteners manufactured from Grade 1018–1022 steel in ISO 9001/14001 certified facilities · ICC-ES certified</footer>
+  <footer>Grabber Construction Products &nbsp;·&nbsp; grabberpro.com &nbsp;·&nbsp; All fasteners manufactured from Grade 1018–1022 steel in ISO 9001/14001 certified facilities &nbsp;·&nbsp; ICC-ES certified</footer>
 </div>
-
+ 
 <script>
 const cats = [
-  { id:'dw-lgs', label:'Drywall → Light-Gauge Steel', color:'#185FA5' },
-  { id:'dw-hgs', label:'Drywall → Heavy-Gauge Steel', color:'#2d6a4f' },
-  { id:'lgs-frame', label:'Light-Gauge Framing', color:'#4a3a8a' },
+  { id:'dw-lgs',    label:'Drywall → Light-Gauge Steel',    color:'#185FA5' },
+  { id:'dw-hgs',    label:'Drywall → Heavy-Gauge Steel',    color:'#2d6a4f' },
+  { id:'lgs-frame', label:'Light-Gauge Framing',            color:'#4a3a8a' },
   { id:'hgs-frame', label:'Heavy-Gauge Framing (DRIVALL®)', color:'#993C1D' },
-  { id:'cement', label:'Cement Board & Sheathing', color:'#7a4f00' },
-  { id:'acoustical', label:'Acoustical & Ceiling', color:'#8b3060' },
-  { id:'laminator', label:'Laminator / Multi-Layer', color:'#0F6E56' },
+  { id:'cement',    label:'Cement Board & Sheathing',       color:'#7a4f00' },
+  { id:'acoustical',label:'Acoustical & Ceiling',           color:'#8b3060' },
+  { id:'laminator', label:'Laminator / Multi-Layer',        color:'#0F6E56' },
 ];
-
+ 
 const data = [
-  // DRYWALL TO LIGHT-GAUGE STEEL
-  { sku:'168S', cat:'dw-lgs', name:'Scavenger Head Streaker — #6 × 1"', desc:'Attaches gypsum board to 18–30 mil (25–20 ga) nonstructural steel. Scavenger® head reduces paper burrs for cleaner finish. Fine thread, #2 Phillips, gray phosphate.', meta:'28 lb / 10M', env:'int' },
-  { sku:'268S', cat:'dw-lgs', name:'Scavenger Head Streaker — #6 × 1-1/8"', desc:'Attaches gypsum board to 18–30 mil nonstructural steel. Scavenger® head minimizes paper burr formation. Fine thread, #2 Phillips, gray phosphate.', meta:'32 lb / 10M', env:'int' },
-  { sku:'368S', cat:'dw-lgs', name:'Scavenger Head Streaker — #6 × 1-1/4"', desc:'Standard length for single-layer gypsum to light-gauge steel studs. Scavenger® head, fine thread, gray phosphate.', meta:'30 lb / 8M', env:'int' },
-  { sku:'468S', cat:'dw-lgs', name:'Scavenger Head Streaker — #6 × 1-5/8"', desc:'For thicker gypsum or deeper penetration into 18–30 mil nonstructural steel. Scavenger® head, fine thread, gray phosphate.', meta:'22 lb / 5M', env:'int' },
-  { sku:'168Z', cat:'dw-lgs', name:'Bugle Head Streaker — #6 × 1" (Clear Zinc)', desc:'Standard bugle head for gypsum to 18–30 mil steel. Clear zinc plating. Fine thread, #2 Phillips.', meta:'28 lb / 10M', env:'int' },
-  { sku:'268Z', cat:'dw-lgs', name:'Bugle Head Streaker — #6 × 1-1/8" (Clear Zinc)', desc:'Bugle head, fine thread, clear zinc. For gypsum board to 20–25 gauge steel walls and ceilings.', meta:'32 lb / 10M', env:'int' },
-  { sku:'368Z', cat:'dw-lgs', name:'Bugle Head Streaker — #6 × 1-1/4" (Clear Zinc)', desc:'Most common single-layer gypsum-to-steel screw length. Bugle head, fine thread, clear zinc plating.', meta:'30 lb / 8M', env:'int' },
-  { sku:'468Z', cat:'dw-lgs', name:'Bugle Head Streaker — #6 × 1-5/8" (Clear Zinc)', desc:'For gypsum to steel with base layer or thicker board. Bugle head, fine thread, clear zinc.', meta:'22 lb / 5M', env:'int' },
-  { sku:'768Z', cat:'dw-lgs', name:'Bugle Head Streaker — #6 × 2" (Clear Zinc)', desc:'Extended reach for multi-layer assemblies to light-gauge steel. Fine thread, bugle head, clear zinc.', meta:'22 lb / 3.5M', env:'int' },
-  { sku:'168', cat:'dw-lgs', name:'Bugle Head Streaker — #6 × 1" (Gray Phosphate)', desc:'Standard drywall-to-steel screw. Gray phosphate finish. Fine thread, #2 Phillips, bugle head.', meta:'28 lb / 10M', env:'int' },
-  { sku:'368', cat:'dw-lgs', name:'Bugle Head Streaker — #6 × 1-1/4" (Gray Phosphate)', desc:'High-volume production screw for single-layer gypsum to light-gauge steel. Gray phosphate, fine thread.', meta:'30 lb / 8M', env:'int' },
-  { sku:'768', cat:'dw-lgs', name:'Bugle Head Streaker — #6 × 2" (Gray Phosphate)', desc:'Multi-layer gypsum to light-gauge steel. Gray phosphate bugle head, fine thread.', meta:'22 lb / 3.5M', env:'int' },
-  { sku:'PS1017', cat:'dw-lgs', name:'Bugle Head Drywall → Light-Gauge Steel (Submittal)', desc:'Official submittal data sheet SKU. Bugle head, interior. For gypsum attachment to light-gauge steel studs and track. Used in commercial project spec submittals.', meta:'Interior | ICC-ES', env:'int' },
-  { sku:'PS1018', cat:'dw-lgs', name:'Bugle Head Hi-Lo Drywall → Light-Gauge Steel (Submittal)', desc:'Hi-Lo thread provides superior engagement in 25–20 ga steel. Bugle head, interior. Ideal where thread pullout resistance is critical.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1029', cat:'dw-lgs', name:'Scavenger® Head Drywall → Light-Gauge Steel (Submittal)', desc:'Submittal-grade spec. Scavenger® head reduces paper burrs on gypsum attached to light-gauge steel. Interior commercial walls and ceilings.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1030', cat:'dw-lgs', name:'Scavenger® Head Hi-Lo Drywall → LGS (Submittal)', desc:'Combines Scavenger® anti-burr head with Hi-Lo thread for maximum pullout in 25–20 gauge steel. Interior rated.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1052', cat:'dw-lgs', name:'Bugle Head Drywall → Light-Gauge Steel (Exterior Submittal)', desc:'Exterior-rated version. GrabberGard corrosion-resistant coating. For exterior sheathing/drywall on light-gauge steel framing.', meta:'Exterior | Submittal', env:'ext' },
-
-  // DRYWALL TO HEAVY-GAUGE STEEL
-  { sku:'13S', cat:'dw-hgs', name:'Scavenger Head Driller — #6 × 1"', desc:'Self-drilling for gypsum to 33–97 mil (20–12 ga) structural steel. Scavenger® head reduces paper burrs. Drill point, #2 Phillips, gray phosphate.', meta:'33 lb / 10M', env:'int' },
-  { sku:'135S', cat:'dw-hgs', name:'Scavenger Head Driller — #6 × 1-1/8"', desc:'Gypsum to heavy-gauge structural steel. Scavenger® head, drill point, gray phosphate. Common in shaft walls and stairwells.', meta:'37 lb / 10M', env:'int' },
-  { sku:'14S', cat:'dw-hgs', name:'Scavenger Head Driller — #6 × 1-1/4"', desc:'Standard length for single-layer gypsum to structural steel (33–97 mil). Drill point, Scavenger® head, gray phosphate.', meta:'33 lb / 8M', env:'int' },
-  { sku:'15S', cat:'dw-hgs', name:'Scavenger Head Driller — #6 × 1-5/8"', desc:'Longer for high fire-rated assemblies to heavy structural steel. Drill point, Scavenger® head.', meta:'22 lb / 5M', env:'int' },
-  { sku:'16S', cat:'dw-hgs', name:'Scavenger Head Driller — #6 × 1-7/8"', desc:'Extended for multi-layer gypsum to heavy-gauge steel. Drill point, Scavenger® head, gray phosphate.', meta:'26 lb / 4M', env:'int' },
-  { sku:'30SS', cat:'dw-hgs', name:'Scavenger Head Driller — #8 × 2-3/8"', desc:'#8 shank for deeper penetration in heavy structural steel. Multi-layer gypsum applications. Scavenger® head, drill point.', meta:'28 lb / 3M', env:'int' },
-  { sku:'30MS', cat:'dw-hgs', name:'Scavenger Head Driller — #8 × 2-5/8"', desc:'Heavy-gauge multi-layer. #8 drill point for gypsum laminate over structural steel framing. Scavenger® head.', meta:'20 lb / 2M', env:'int' },
-  { sku:'30LS', cat:'dw-hgs', name:'Scavenger Head Driller — #8 × 3"', desc:'Longest Scavenger Driller for maximum multi-layer assemblies to heavy structural steel. #8, drill point, gray phosphate.', meta:'22 lb / 2M', env:'int' },
-  { sku:'14SZ', cat:'dw-hgs', name:'Scavenger Head Driller — #6 × 1-1/4" (Clear Zinc)', desc:'Clear zinc finish. Gypsum to 33–97 mil structural steel. Enhanced corrosion resistance over gray phosphate.', meta:'33 lb / 8M', env:'int' },
-  { sku:'14RG', cat:'dw-hgs', name:'Bugle Head Driller — #6 × 1-1/4" (GrabberGard®)', desc:'GrabberGard® corrosion-resistant coating. Gypsum or insulation board to 33–97 mil structural steel. Bugle head, drill point. Suitable for ACQ pressure-treated assemblies.', meta:'33 lb / 8M', env:'ext' },
-  { sku:'PS1002', cat:'dw-hgs', name:'Bugle Head Drywall → Heavy-Gauge Steel (Submittal)', desc:'Submittal sheet. Bugle head self-drilling for gypsum to 14–20 gauge structural steel. Interior, ICC-ES certified. Shaft walls, stairwells, structural partitions.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1013', cat:'dw-hgs', name:'Scavenger® Head Drywall → Heavy-Gauge Steel (Submittal)', desc:'Submittal-grade Scavenger® head driller for gypsum to heavy-gauge structural steel. Reduces paper burr finish defects. Interior commercial.', meta:'Interior | Submittal', env:'int' },
-  { sku:'240', cat:'dw-hgs', name:'Bugle Head DRIVALL® — Drywall to Heavy-Gauge', desc:'DRIVALL® self-drilling. Attaches drywall to 14–20 gauge structural steel. Bugle head. Standard commercial drywall-to-structural-steel production screw.', meta:'Interior', env:'int' },
-  { sku:'240S', cat:'dw-hgs', name:'Scavenger® Head DRIVALL® — Drywall to Heavy-Gauge', desc:'DRIVALL® self-drilling with Scavenger® head. Clean drywall attachment to 14–20 gauge steel without paper burrs.', meta:'Interior', env:'int' },
-
-  // LIGHT-GAUGE FRAMING
-  { sku:'PS1023', cat:'lgs-frame', name:'Hex Head Light-Gauge Steel Framing Screw (Submittal)', desc:'Metal-to-metal framing in 25–20 gauge cold-formed steel. Hex head for high torque. Interior partition and ceiling grid framing.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1024', cat:'lgs-frame', name:'Modified Truss Head Lath / LGS Framing Screw (Submittal)', desc:'Low-profile truss head for lath or light-gauge metal-to-metal framing. Wide bearing surface reduces embedment. Interior rated.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1025', cat:'lgs-frame', name:'Pan Head Light-Gauge Steel to Steel Screw (Submittal)', desc:'High-torque pan head for 25–20 gauge steel-to-steel connections. Track-to-stud and clip connections. Interior.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1027', cat:'lgs-frame', name:'Revised Flat Pan Head LGS Framing Screw (Submittal)', desc:'Low-profile flat pan head for light-gauge metal framing joints. Minimizes head projection. Interior commercial ceiling and wall systems.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1056', cat:'lgs-frame', name:'Modified Truss Head Lath / LGS Framing Screw (Exterior)', desc:'Exterior-rated for lath or light-gauge metal-to-metal framing in exposed assemblies. Corrosion-resistant coating.', meta:'Exterior | Submittal', env:'ext' },
-  { sku:'PS1057', cat:'lgs-frame', name:'Pan Head Light-Gauge Steel to Steel Screw (Exterior)', desc:'Exterior-rated pan head steel-to-steel framing screw. GrabberGard or zinc coating. Exterior light-gauge framing, curtain wall tracks, EIFS systems.', meta:'Exterior | Submittal', env:'ext' },
-  { sku:'PS1058', cat:'lgs-frame', name:'Revised Flat Pan Head LGS Framing Screw (Exterior)', desc:'Exterior-rated flat pan head for light-gauge steel framing in exposed or semi-exposed assemblies.', meta:'Exterior | Submittal', env:'ext' },
-  { sku:'210', cat:'lgs-frame', name:'Scavenger® Head STREAKER® — LGS Framing', desc:'Fine thread self-tapping for drywall to light-gauge steel (20–25 ga). Scavenger® head for clean finish. Primary production screw in light-gauge commercial framing.', meta:'Interior', env:'int' },
-  { sku:'212', cat:'lgs-frame', name:'Bugle Head STREAKER® — LGS Framing', desc:'Self-tapping for gypsum to 20–25 gauge steel in walls and ceilings. Standard bugle head. Core commercial metal framing fastener.', meta:'Interior', env:'int' },
-  { sku:'216', cat:'lgs-frame', name:'Pan Framing Head STREAKER® — Metal to Metal', desc:'Self-tapping framing screw for 20–25 gauge metal-to-metal applications. Pan head for high torque. Stud-to-track and clip connections in commercial interior framing.', meta:'Interior', env:'int' },
-  { sku:'218', cat:'lgs-frame', name:'Hex Head STREAKER® — Metal to Metal', desc:'Hex washer head STREAKER® for 20–25 gauge metal-to-metal framing. High torque hex drive. Commercial ceiling grid and partition connections.', meta:'Interior', env:'int' },
-  { sku:'220', cat:'lgs-frame', name:'Wafer Head STREAKER® — Lath to LGS', desc:'Low-profile wafer head for lath or light-gauge metal to 20–25 gauge steel studs. Commercial plaster and tile backer applications.', meta:'Interior', env:'int' },
-  { sku:'224', cat:'lgs-frame', name:'Bugle Head Hi-Lo STREAKER® — LGS Framing', desc:'Hi-Lo thread for superior engagement in light-gauge steel or wood. Reduces stripping, improves pullout resistance. Interior drywall and metal framing.', meta:'Interior', env:'int' },
-
-  // HEAVY-GAUGE FRAMING (DRIVALL)
-  { sku:'244', cat:'hgs-frame', name:'Pan Framing Head DRIVALL® — Fixture to HGS', desc:'Self-drilling for fixtures, backup plates, and door frames to 14–20 gauge structural steel. Pan framing head, metal-to-metal applications.', meta:'Interior', env:'int' },
-  { sku:'246', cat:'hgs-frame', name:'Hex Head DRIVALL® — Structural Steel', desc:'Self-drilling for fixtures, backup plates to 12–20 gauge structural studs, metal decks, and trusses. Hex head for high torque. Critical in commercial structural connections.', meta:'Interior', env:'int' },
-  { sku:'248', cat:'hgs-frame', name:'Wafer Head DRIVALL® — Lath to HGS', desc:'Self-drilling wafer head for lath or heavy-gauge metal-to-metal connections. Low profile minimizes head protrusion.', meta:'Interior', env:'int' },
-  { sku:'258', cat:'hgs-frame', name:'Pan Head DRIVALL® — Fixture to HGS', desc:'Self-drilling pan head for fixtures, backup plates, and door frames to 14–20 gauge structural steel. Standard commercial heavy-gauge metal-to-metal connection screw.', meta:'Interior', env:'int' },
-  { sku:'258A', cat:'hgs-frame', name:'Pan Head DRIVALL® USA — Fixture to HGS', desc:'USA-made variant. Self-drilling pan head for 14–20 gauge steel. Fixtures and backup plates in commercial partition systems.', meta:'Interior', env:'int' },
-  { sku:'260', cat:'hgs-frame', name:'Flat Pan Head DRIVALL® — Steel Framing to Steel', desc:'#3 drill point self-drilling for framing 14–20 gauge steel to steel. Flat pan head for flush seating in structural steel framing connections.', meta:'Interior', env:'int' },
-  { sku:'250', cat:'hgs-frame', name:'Flat Head DRIVALL® Pilot Point — Plywood to HGS', desc:'Self-drilling pilot point for attaching 3/8"–1" plywood or wood to 14–20 gauge structural steel. Pilot point reduces cam-out during wood penetration.', meta:'Interior', env:'int' },
-  { sku:'252', cat:'hgs-frame', name:'Thin Wafer Head DRIVALL® Winged — Plywood to HGS', desc:'Winged drill point for plywood to heavy-gauge metal. Wings bore a larger hole in wood then break off at steel interface, allowing self-drilling into metal.', meta:'Interior', env:'int' },
-  { sku:'254', cat:'hgs-frame', name:'Flat Head DRIVALL® Winged — Plywood to HGS', desc:'Flat head winged self-drilling for plywood to heavy-gauge metal. Used in floor decking and subfloor to structural steel joist applications.', meta:'Interior', env:'int' },
-  { sku:'266', cat:'hgs-frame', name:'XteK® Metal to Wood — LOX® Drive', desc:'Designed for wood to steel framing members. LOX® drive provides high-torque stick fit — no magnetic holder needed. Heavy wood-to-steel connections in commercial builds.', meta:'Interior', env:'int' },
-  { sku:'PS1005', cat:'hgs-frame', name:'Dome Head HGS to Steel Screw (Submittal)', desc:'Dome head self-drilling for steel-to-steel connections in 12–20 gauge structural framing. Interior commercial.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1006', cat:'hgs-frame', name:'Flat Head Wood → Heavy-Gauge Steel (Submittal)', desc:'Self-drilling flat head for wood to 14–20 gauge structural steel. Flush seating on wood surface. Framing and backup plate applications.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1007', cat:'hgs-frame', name:'Flat Head Plysteel Sheathing → HGS (Submittal)', desc:'Self-drilling for plywood/OSB sheathing panels to heavy-gauge steel framing. Interior structural diaphragm assemblies.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1008', cat:'hgs-frame', name:'Hex Head HGS to Steel Screw (Submittal)', desc:'High-torque hex head for structural steel-to-steel connections. 12–20 gauge heavy framing, decking, and truss connections.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1009', cat:'hgs-frame', name:'Modified Truss Head Lath / HGS Framing Screw (Submittal)', desc:'Wide-bearing truss head for lath to heavy-gauge metal or structural steel-to-steel framing. Interior commercial.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1010', cat:'hgs-frame', name:'Pan Head HGS Framing Screw (Submittal)', desc:'Pan head for steel-to-steel framing in 14–20 gauge structural applications. Backup plates, door frames, and fixture attachments.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1011', cat:'hgs-frame', name:'Modified Pan Head HGS to Wood Screw (Submittal)', desc:'Modified pan head self-drilling for heavy-gauge steel to wood connections. Structural framing backup and blocking in commercial builds.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1014', cat:'hgs-frame', name:'Trim Head Wood → Heavy-Gauge Steel (Submittal)', desc:'Narrow trim head for wood trim or blocking to 14–20 gauge structural steel. Minimizes visible head for finished applications.', meta:'Interior | Submittal', env:'int' },
-
-  // CEMENT BOARD & SHEATHING
-  { sku:'228', cat:'cement', name:'GRABBER® Cement Board Screw — Sharp Point Wafer Head', desc:'Wafer head with nibs for cement board and high-density exterior sheathing to wood or 20-gauge steel. Nibs provide controlled countersinking into cementitious material.', meta:'Exterior', env:'ext' },
-  { sku:'268CB', cat:'cement', name:'GRABBER® Cement Board Screw — Self-Piercing', desc:'Self-piercing for cement board and high-density exterior sheathing to exterior wood or 20-gauge steel. No pre-drilling required. Common in commercial tile backer and exterior cladding.', meta:'Exterior', env:'ext' },
-  { sku:'290', cat:'cement', name:'GRABBER® HardiBoard® Winged Driller', desc:'Specifically for cementitious board (HardiBacker, Durock, and similar) to steel or wood. Winged drill point penetrates board cleanly then self-drills into metal substrate.', meta:'Exterior / Wet Areas', env:'ext' },
-  { sku:'PS1035', cat:'cement', name:'Flat Wafer Head Cement Board → LGS (Exterior Submittal)', desc:'Flat wafer head for cement board or high-density sheathing to 18–30 mil nonstructural steel. EIFS, tile backer, and exterior cladding systems.', meta:'Exterior | Submittal', env:'ext' },
-  { sku:'PS1036', cat:'cement', name:'Flat Wafer Head Hi-Lo Thread Cement Board → LGS', desc:'Hi-Lo thread version for superior cement board engagement to light-gauge steel. Reduces stripping in cementitious materials. Exterior rated.', meta:'Exterior | Submittal', env:'ext' },
-  { sku:'PS1015', cat:'cement', name:'Flat Wafer Head Driller Cement Board → HGS (Submittal)', desc:'Drill point for cement board to 33–97 mil structural steel. Commercial exterior assemblies with structural framing.', meta:'Exterior | Submittal', env:'ext' },
-  { sku:'PS1021', cat:'cement', name:'Flat Head Sheathing & Subfloor → LGS (Submittal)', desc:'Structural sheathing and subfloor panels to light-gauge steel framing. Flush flat head for solid substrate contact. Interior structural diaphragm use.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1034', cat:'cement', name:'Flat Head Underlayment → Light-Gauge Steel (Submittal)', desc:'Underlayment to light-gauge steel subfloor framing in commercial flooring systems. Flat head prevents telegraphing through finished floor.', meta:'Interior | Submittal', env:'int' },
-
-  // ACOUSTICAL & CEILING
-  { sku:'PS1001', cat:'acoustical', name:'Acoustical Eye Lag → Wood Screw (Submittal)', desc:'Threaded eye for hanging wire from wood structure. Suspends acoustical ceiling grids from wood joists or blocking. Interior commercial ceilings.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1038', cat:'acoustical', name:'Acoustical Eye Lag → Light-Gauge Steel (Submittal)', desc:'Threaded eye for hanger wire to light-gauge steel structure. Self-tapping sharp point. Standard ceiling grid suspension in commercial buildings with light-gauge steel framing.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1039', cat:'acoustical', name:'Acoustical Eye Lag → Heavy-Gauge Steel (Submittal)', desc:'Threaded eye for hanger wire to heavy-gauge or structural steel decking. Self-drilling drill point. Commercial high-bay and office ceilings.', meta:'Interior | Submittal', env:'int' },
-
-  // LAMINATOR / MULTI-LAYER
-  { sku:'PS1016', cat:'laminator', name:'Bugle Head Gypsum Board Laminator — Interior (Submittal)', desc:'For laminating gypsum board layers in multi-layer assemblies. Bugle head, coarse thread. High fire-rated commercial assemblies, shaft walls, and stairwells.', meta:'Interior | Submittal', env:'int' },
-  { sku:'PS1022', cat:'laminator', name:'Bugle Head Gypsum Board Laminator — Exterior (Submittal)', desc:'Exterior-rated laminator for multi-layer exterior gypsum or sheathing assemblies. GrabberGard corrosion protection. Commercial curtain wall and rainscreen assemblies.', meta:'Exterior | Submittal', env:'ext' },
-  { sku:'232', cat:'laminator', name:'Bugle Head GRABBER® Laminator', desc:'Self-tapping for laminating gypsum to gypsum in multi-layer commercial drywall construction. Coarse thread, bugle head. Standard in fire-rated shaft wall assemblies.', meta:'Interior', env:'int' },
-  { sku:'1268', cat:'laminator', name:'Bugle Head Driller — #10 × 3-1/2"', desc:'Long-reach laminator for multiple-layer gypsum to heavy structural steel. Used in 2- and 3-layer commercial fire assemblies. #10 shank, drill point, gray phosphate.', meta:'17 lb / 1M', env:'int' },
-  { sku:'1368', cat:'laminator', name:'Bugle Head Driller — #10 × 4"', desc:'Extended reach for 3-layer or deeply recessed gypsum assemblies to structural steel. #10 shank, fine thread, drill point.', meta:'21 lb / 1M', env:'int' },
-  { sku:'1568', cat:'laminator', name:'Bugle Head Driller — #10 × 5"', desc:'Maximum-length laminator for deep multi-layer assemblies. Specialty fire-rated walls and extra-thick commercial assemblies requiring penetration through multiple board layers into structural steel.', meta:'24 lb / 1M', env:'int' },
+  {sku:'168S',cat:'dw-lgs',name:'Scavenger Head Streaker — #6 × 1"',desc:'Attaches gypsum board to 18–30 mil (25–20 ga) nonstructural steel. Scavenger® head reduces paper burrs. Fine thread, #2 Phillips, gray phosphate.',meta:'28 lb / 10M',env:'int'},
+  {sku:'268S',cat:'dw-lgs',name:'Scavenger Head Streaker — #6 × 1-1/8"',desc:'Attaches gypsum board to 18–30 mil nonstructural steel. Scavenger® head minimizes paper burr formation. Fine thread, #2 Phillips, gray phosphate.',meta:'32 lb / 10M',env:'int'},
+  {sku:'368S',cat:'dw-lgs',name:'Scavenger Head Streaker — #6 × 1-1/4"',desc:'Standard length for single-layer gypsum to light-gauge steel studs. Scavenger® head, fine thread, gray phosphate.',meta:'30 lb / 8M',env:'int'},
+  {sku:'468S',cat:'dw-lgs',name:'Scavenger Head Streaker — #6 × 1-5/8"',desc:'For thicker gypsum or deeper penetration into 18–30 mil nonstructural steel. Scavenger® head, fine thread, gray phosphate.',meta:'22 lb / 5M',env:'int'},
+  {sku:'168Z',cat:'dw-lgs',name:'Bugle Head Streaker — #6 × 1" (Clear Zinc)',desc:'Standard bugle head for gypsum to 18–30 mil steel. Clear zinc plating. Fine thread, #2 Phillips.',meta:'28 lb / 10M',env:'int'},
+  {sku:'268Z',cat:'dw-lgs',name:'Bugle Head Streaker — #6 × 1-1/8" (Clear Zinc)',desc:'Bugle head, fine thread, clear zinc. For gypsum board to 20–25 gauge steel walls and ceilings.',meta:'32 lb / 10M',env:'int'},
+  {sku:'368Z',cat:'dw-lgs',name:'Bugle Head Streaker — #6 × 1-1/4" (Clear Zinc)',desc:'Most common single-layer gypsum-to-steel screw length. Bugle head, fine thread, clear zinc plating.',meta:'30 lb / 8M',env:'int'},
+  {sku:'468Z',cat:'dw-lgs',name:'Bugle Head Streaker — #6 × 1-5/8" (Clear Zinc)',desc:'For gypsum to steel with base layer or thicker board. Bugle head, fine thread, clear zinc.',meta:'22 lb / 5M',env:'int'},
+  {sku:'768Z',cat:'dw-lgs',name:'Bugle Head Streaker — #6 × 2" (Clear Zinc)',desc:'Extended reach for multi-layer assemblies to light-gauge steel. Fine thread, bugle head, clear zinc.',meta:'22 lb / 3.5M',env:'int'},
+  {sku:'168',cat:'dw-lgs',name:'Bugle Head Streaker — #6 × 1" (Gray Phosphate)',desc:'Standard drywall-to-steel screw. Gray phosphate finish. Fine thread, #2 Phillips, bugle head.',meta:'28 lb / 10M',env:'int'},
+  {sku:'368',cat:'dw-lgs',name:'Bugle Head Streaker — #6 × 1-1/4" (Gray Phosphate)',desc:'High-volume production screw for single-layer gypsum to light-gauge steel. Gray phosphate, fine thread.',meta:'30 lb / 8M',env:'int'},
+  {sku:'768',cat:'dw-lgs',name:'Bugle Head Streaker — #6 × 2" (Gray Phosphate)',desc:'Multi-layer gypsum to light-gauge steel. Gray phosphate bugle head, fine thread.',meta:'22 lb / 3.5M',env:'int'},
+  {sku:'PS1017',cat:'dw-lgs',name:'Bugle Head Drywall → Light-Gauge Steel (Submittal)',desc:'Official submittal data sheet SKU. Bugle head, interior. For gypsum attachment to light-gauge steel studs and track. Used in commercial project spec submittals.',meta:'Interior | ICC-ES',env:'int'},
+  {sku:'PS1018',cat:'dw-lgs',name:'Bugle Head Hi-Lo Drywall → Light-Gauge Steel (Submittal)',desc:'Hi-Lo thread provides superior engagement in 25–20 ga steel. Bugle head, interior. Ideal where thread pullout resistance is critical.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1029',cat:'dw-lgs',name:'Scavenger® Head Drywall → Light-Gauge Steel (Submittal)',desc:'Submittal-grade spec. Scavenger® head reduces paper burrs on gypsum attached to light-gauge steel. Interior commercial walls and ceilings.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1030',cat:'dw-lgs',name:'Scavenger® Head Hi-Lo Drywall → LGS (Submittal)',desc:'Combines Scavenger® anti-burr head with Hi-Lo thread for maximum pullout in 25–20 gauge steel. Interior rated.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1052',cat:'dw-lgs',name:'Bugle Head Drywall → Light-Gauge Steel (Exterior Submittal)',desc:'Exterior-rated version. GrabberGard corrosion-resistant coating. For exterior sheathing/drywall on light-gauge steel framing.',meta:'Exterior | Submittal',env:'ext'},
+  {sku:'13S',cat:'dw-hgs',name:'Scavenger Head Driller — #6 × 1"',desc:'Self-drilling for gypsum to 33–97 mil (20–12 ga) structural steel. Scavenger® head reduces paper burrs. Drill point, #2 Phillips, gray phosphate.',meta:'33 lb / 10M',env:'int'},
+  {sku:'135S',cat:'dw-hgs',name:'Scavenger Head Driller — #6 × 1-1/8"',desc:'Gypsum to heavy-gauge structural steel. Scavenger® head, drill point, gray phosphate. Common in shaft walls and stairwells.',meta:'37 lb / 10M',env:'int'},
+  {sku:'14S',cat:'dw-hgs',name:'Scavenger Head Driller — #6 × 1-1/4"',desc:'Standard length for single-layer gypsum to structural steel (33–97 mil). Drill point, Scavenger® head, gray phosphate.',meta:'33 lb / 8M',env:'int'},
+  {sku:'15S',cat:'dw-hgs',name:'Scavenger Head Driller — #6 × 1-5/8"',desc:'Longer for high fire-rated assemblies to heavy structural steel. Drill point, Scavenger® head.',meta:'22 lb / 5M',env:'int'},
+  {sku:'16S',cat:'dw-hgs',name:'Scavenger Head Driller — #6 × 1-7/8"',desc:'Extended for multi-layer gypsum to heavy-gauge steel. Drill point, Scavenger® head, gray phosphate.',meta:'26 lb / 4M',env:'int'},
+  {sku:'30SS',cat:'dw-hgs',name:'Scavenger Head Driller — #8 × 2-3/8"',desc:'#8 shank for deeper penetration in heavy structural steel. Multi-layer gypsum applications. Scavenger® head, drill point.',meta:'28 lb / 3M',env:'int'},
+  {sku:'30MS',cat:'dw-hgs',name:'Scavenger Head Driller — #8 × 2-5/8"',desc:'Heavy-gauge multi-layer. #8 drill point for gypsum laminate over structural steel framing. Scavenger® head.',meta:'20 lb / 2M',env:'int'},
+  {sku:'30LS',cat:'dw-hgs',name:'Scavenger Head Driller — #8 × 3"',desc:'Longest Scavenger Driller for maximum multi-layer assemblies to heavy structural steel. #8, drill point, gray phosphate.',meta:'22 lb / 2M',env:'int'},
+  {sku:'14SZ',cat:'dw-hgs',name:'Scavenger Head Driller — #6 × 1-1/4" (Clear Zinc)',desc:'Clear zinc finish. Gypsum to 33–97 mil structural steel. Enhanced corrosion resistance over gray phosphate.',meta:'33 lb / 8M',env:'int'},
+  {sku:'14RG',cat:'dw-hgs',name:'Bugle Head Driller — #6 × 1-1/4" (GrabberGard®)',desc:'GrabberGard® corrosion-resistant coating. Gypsum or insulation board to 33–97 mil structural steel. Bugle head, drill point. Suitable for ACQ pressure-treated assemblies.',meta:'33 lb / 8M',env:'ext'},
+  {sku:'PS1002',cat:'dw-hgs',name:'Bugle Head Drywall → Heavy-Gauge Steel (Submittal)',desc:'Submittal sheet. Bugle head self-drilling for gypsum to 14–20 gauge structural steel. Interior, ICC-ES certified. Shaft walls, stairwells, structural partitions.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1013',cat:'dw-hgs',name:'Scavenger® Head Drywall → Heavy-Gauge Steel (Submittal)',desc:'Submittal-grade Scavenger® head driller for gypsum to heavy-gauge structural steel. Reduces paper burr finish defects. Interior commercial.',meta:'Interior | Submittal',env:'int'},
+  {sku:'240',cat:'dw-hgs',name:'Bugle Head DRIVALL® — Drywall to Heavy-Gauge',desc:'DRIVALL® self-drilling. Attaches drywall to 14–20 gauge structural steel. Bugle head. Standard commercial drywall-to-structural-steel production screw.',meta:'Interior',env:'int'},
+  {sku:'240S',cat:'dw-hgs',name:'Scavenger® Head DRIVALL® — Drywall to Heavy-Gauge',desc:'DRIVALL® self-drilling with Scavenger® head. Clean drywall attachment to 14–20 gauge steel without paper burrs.',meta:'Interior',env:'int'},
+  {sku:'PS1023',cat:'lgs-frame',name:'Hex Head Light-Gauge Steel Framing Screw (Submittal)',desc:'Metal-to-metal framing in 25–20 gauge cold-formed steel. Hex head for high torque. Interior partition and ceiling grid framing.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1024',cat:'lgs-frame',name:'Modified Truss Head Lath / LGS Framing Screw (Submittal)',desc:'Low-profile truss head for lath or light-gauge metal-to-metal framing. Wide bearing surface reduces embedment. Interior rated.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1025',cat:'lgs-frame',name:'Pan Head Light-Gauge Steel to Steel Screw (Submittal)',desc:'High-torque pan head for 25–20 gauge steel-to-steel connections. Track-to-stud and clip connections. Interior.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1027',cat:'lgs-frame',name:'Revised Flat Pan Head LGS Framing Screw (Submittal)',desc:'Low-profile flat pan head for light-gauge metal framing joints. Minimizes head projection. Interior commercial ceiling and wall systems.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1056',cat:'lgs-frame',name:'Modified Truss Head Lath / LGS Framing Screw (Exterior)',desc:'Exterior-rated for lath or light-gauge metal-to-metal framing in exposed assemblies. Corrosion-resistant coating.',meta:'Exterior | Submittal',env:'ext'},
+  {sku:'PS1057',cat:'lgs-frame',name:'Pan Head Light-Gauge Steel to Steel Screw (Exterior)',desc:'Exterior-rated pan head steel-to-steel framing screw. GrabberGard or zinc coating. Exterior light-gauge framing, curtain wall tracks, EIFS systems.',meta:'Exterior | Submittal',env:'ext'},
+  {sku:'PS1058',cat:'lgs-frame',name:'Revised Flat Pan Head LGS Framing Screw (Exterior)',desc:'Exterior-rated flat pan head for light-gauge steel framing in exposed or semi-exposed assemblies.',meta:'Exterior | Submittal',env:'ext'},
+  {sku:'210',cat:'lgs-frame',name:'Scavenger® Head STREAKER® — LGS Framing',desc:'Fine thread self-tapping for drywall to light-gauge steel (20–25 ga). Scavenger® head for clean finish. Primary production screw in light-gauge commercial framing.',meta:'Interior',env:'int'},
+  {sku:'212',cat:'lgs-frame',name:'Bugle Head STREAKER® — LGS Framing',desc:'Self-tapping for gypsum to 20–25 gauge steel in walls and ceilings. Standard bugle head. Core commercial metal framing fastener.',meta:'Interior',env:'int'},
+  {sku:'216',cat:'lgs-frame',name:'Pan Framing Head STREAKER® — Metal to Metal',desc:'Self-tapping framing screw for 20–25 gauge metal-to-metal applications. Pan head for high torque. Stud-to-track and clip connections in commercial interior framing.',meta:'Interior',env:'int'},
+  {sku:'218',cat:'lgs-frame',name:'Hex Head STREAKER® — Metal to Metal',desc:'Hex washer head STREAKER® for 20–25 gauge metal-to-metal framing. High torque hex drive. Commercial ceiling grid and partition connections.',meta:'Interior',env:'int'},
+  {sku:'220',cat:'lgs-frame',name:'Wafer Head STREAKER® — Lath to LGS',desc:'Low-profile wafer head for lath or light-gauge metal to 20–25 gauge steel studs. Commercial plaster and tile backer applications.',meta:'Interior',env:'int'},
+  {sku:'224',cat:'lgs-frame',name:'Bugle Head Hi-Lo STREAKER® — LGS Framing',desc:'Hi-Lo thread for superior engagement in light-gauge steel or wood. Reduces stripping, improves pullout resistance. Interior drywall and metal framing.',meta:'Interior',env:'int'},
+  {sku:'244',cat:'hgs-frame',name:'Pan Framing Head DRIVALL® — Fixture to HGS',desc:'Self-drilling for fixtures, backup plates, and door frames to 14–20 gauge structural steel. Pan framing head, metal-to-metal applications.',meta:'Interior',env:'int'},
+  {sku:'246',cat:'hgs-frame',name:'Hex Head DRIVALL® — Structural Steel',desc:'Self-drilling for fixtures, backup plates to 12–20 gauge structural studs, metal decks, and trusses. Hex head for high torque. Critical in commercial structural connections.',meta:'Interior',env:'int'},
+  {sku:'248',cat:'hgs-frame',name:'Wafer Head DRIVALL® — Lath to HGS',desc:'Self-drilling wafer head for lath or heavy-gauge metal-to-metal connections. Low profile minimizes head protrusion.',meta:'Interior',env:'int'},
+  {sku:'258',cat:'hgs-frame',name:'Pan Head DRIVALL® — Fixture to HGS',desc:'Self-drilling pan head for fixtures, backup plates, and door frames to 14–20 gauge structural steel. Standard commercial heavy-gauge metal-to-metal connection screw.',meta:'Interior',env:'int'},
+  {sku:'258A',cat:'hgs-frame',name:'Pan Head DRIVALL® USA — Fixture to HGS',desc:'USA-made variant. Self-drilling pan head for 14–20 gauge steel. Fixtures and backup plates in commercial partition systems.',meta:'Interior',env:'int'},
+  {sku:'260',cat:'hgs-frame',name:'Flat Pan Head DRIVALL® — Steel Framing to Steel',desc:'#3 drill point self-drilling for framing 14–20 gauge steel to steel. Flat pan head for flush seating in structural steel framing connections.',meta:'Interior',env:'int'},
+  {sku:'250',cat:'hgs-frame',name:'Flat Head DRIVALL® Pilot Point — Plywood to HGS',desc:'Self-drilling pilot point for attaching 3/8"–1" plywood or wood to 14–20 gauge structural steel. Pilot point reduces cam-out during wood penetration.',meta:'Interior',env:'int'},
+  {sku:'252',cat:'hgs-frame',name:'Thin Wafer Head DRIVALL® Winged — Plywood to HGS',desc:'Winged drill point for plywood to heavy-gauge metal. Wings bore a larger hole in wood then break off at steel interface, allowing self-drilling into metal.',meta:'Interior',env:'int'},
+  {sku:'254',cat:'hgs-frame',name:'Flat Head DRIVALL® Winged — Plywood to HGS',desc:'Flat head winged self-drilling for plywood to heavy-gauge metal. Used in floor decking and subfloor to structural steel joist applications.',meta:'Interior',env:'int'},
+  {sku:'266',cat:'hgs-frame',name:'XteK® Metal to Wood — LOX® Drive',desc:'Designed for wood to steel framing members. LOX® drive provides high-torque stick fit — no magnetic holder needed. Heavy wood-to-steel connections in commercial builds.',meta:'Interior',env:'int'},
+  {sku:'PS1005',cat:'hgs-frame',name:'Dome Head HGS to Steel Screw (Submittal)',desc:'Dome head self-drilling for steel-to-steel connections in 12–20 gauge structural framing. Interior commercial.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1006',cat:'hgs-frame',name:'Flat Head Wood → Heavy-Gauge Steel (Submittal)',desc:'Self-drilling flat head for wood to 14–20 gauge structural steel. Flush seating on wood surface. Framing and backup plate applications.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1007',cat:'hgs-frame',name:'Flat Head Plysteel Sheathing → HGS (Submittal)',desc:'Self-drilling for plywood/OSB sheathing panels to heavy-gauge steel framing. Interior structural diaphragm assemblies.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1008',cat:'hgs-frame',name:'Hex Head HGS to Steel Screw (Submittal)',desc:'High-torque hex head for structural steel-to-steel connections. 12–20 gauge heavy framing, decking, and truss connections.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1009',cat:'hgs-frame',name:'Modified Truss Head Lath / HGS Framing Screw (Submittal)',desc:'Wide-bearing truss head for lath to heavy-gauge metal or structural steel-to-steel framing. Interior commercial.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1010',cat:'hgs-frame',name:'Pan Head HGS Framing Screw (Submittal)',desc:'Pan head for steel-to-steel framing in 14–20 gauge structural applications. Backup plates, door frames, and fixture attachments.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1011',cat:'hgs-frame',name:'Modified Pan Head HGS to Wood Screw (Submittal)',desc:'Modified pan head self-drilling for heavy-gauge steel to wood connections. Structural framing backup and blocking in commercial builds.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1014',cat:'hgs-frame',name:'Trim Head Wood → Heavy-Gauge Steel (Submittal)',desc:'Narrow trim head for wood trim or blocking to 14–20 gauge structural steel. Minimizes visible head for finished applications.',meta:'Interior | Submittal',env:'int'},
+  {sku:'228',cat:'cement',name:'GRABBER® Cement Board Screw — Sharp Point Wafer Head',desc:'Wafer head with nibs for cement board and high-density exterior sheathing to wood or 20-gauge steel. Nibs provide controlled countersinking into cementitious material.',meta:'Exterior',env:'ext'},
+  {sku:'268CB',cat:'cement',name:'GRABBER® Cement Board Screw — Self-Piercing',desc:'Self-piercing for cement board and high-density exterior sheathing to exterior wood or 20-gauge steel. No pre-drilling required. Common in commercial tile backer and exterior cladding.',meta:'Exterior',env:'ext'},
+  {sku:'290',cat:'cement',name:'GRABBER® HardiBoard® Winged Driller',desc:'Specifically for cementitious board (HardiBacker, Durock, and similar) to steel or wood. Winged drill point penetrates board cleanly then self-drills into metal substrate.',meta:'Exterior / Wet Areas',env:'ext'},
+  {sku:'PS1035',cat:'cement',name:'Flat Wafer Head Cement Board → LGS (Exterior Submittal)',desc:'Flat wafer head for cement board or high-density sheathing to 18–30 mil nonstructural steel. EIFS, tile backer, and exterior cladding systems.',meta:'Exterior | Submittal',env:'ext'},
+  {sku:'PS1036',cat:'cement',name:'Flat Wafer Head Hi-Lo Thread Cement Board → LGS',desc:'Hi-Lo thread version for superior cement board engagement to light-gauge steel. Reduces stripping in cementitious materials. Exterior rated.',meta:'Exterior | Submittal',env:'ext'},
+  {sku:'PS1015',cat:'cement',name:'Flat Wafer Head Driller Cement Board → HGS (Submittal)',desc:'Drill point for cement board to 33–97 mil structural steel. Commercial exterior assemblies with structural framing.',meta:'Exterior | Submittal',env:'ext'},
+  {sku:'PS1021',cat:'cement',name:'Flat Head Sheathing & Subfloor → LGS (Submittal)',desc:'Structural sheathing and subfloor panels to light-gauge steel framing. Flush flat head for solid substrate contact. Interior structural diaphragm use.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1034',cat:'cement',name:'Flat Head Underlayment → Light-Gauge Steel (Submittal)',desc:'Underlayment to light-gauge steel subfloor framing in commercial flooring systems. Flat head prevents telegraphing through finished floor.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1001',cat:'acoustical',name:'Acoustical Eye Lag → Wood Screw (Submittal)',desc:'Threaded eye for hanging wire from wood structure. Suspends acoustical ceiling grids from wood joists or blocking. Interior commercial ceilings.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1038',cat:'acoustical',name:'Acoustical Eye Lag → Light-Gauge Steel (Submittal)',desc:'Threaded eye for hanger wire to light-gauge steel structure. Self-tapping sharp point. Standard ceiling grid suspension in commercial buildings with light-gauge steel framing.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1039',cat:'acoustical',name:'Acoustical Eye Lag → Heavy-Gauge Steel (Submittal)',desc:'Threaded eye for hanger wire to heavy-gauge or structural steel decking. Self-drilling drill point. Commercial high-bay and office ceilings.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1016',cat:'laminator',name:'Bugle Head Gypsum Board Laminator — Interior (Submittal)',desc:'For laminating gypsum board layers in multi-layer assemblies. Bugle head, coarse thread. High fire-rated commercial assemblies, shaft walls, and stairwells.',meta:'Interior | Submittal',env:'int'},
+  {sku:'PS1022',cat:'laminator',name:'Bugle Head Gypsum Board Laminator — Exterior (Submittal)',desc:'Exterior-rated laminator for multi-layer exterior gypsum or sheathing assemblies. GrabberGard corrosion protection. Commercial curtain wall and rainscreen assemblies.',meta:'Exterior | Submittal',env:'ext'},
+  {sku:'232',cat:'laminator',name:'Bugle Head GRABBER® Laminator',desc:'Self-tapping for laminating gypsum to gypsum in multi-layer commercial drywall construction. Coarse thread, bugle head. Standard in fire-rated shaft wall assemblies.',meta:'Interior',env:'int'},
+  {sku:'1268',cat:'laminator',name:'Bugle Head Driller — #10 × 3-1/2"',desc:'Long-reach laminator for multiple-layer gypsum to heavy structural steel. Used in 2- and 3-layer commercial fire assemblies. #10 shank, drill point, gray phosphate.',meta:'17 lb / 1M',env:'int'},
+  {sku:'1368',cat:'laminator',name:'Bugle Head Driller — #10 × 4"',desc:'Extended reach for 3-layer or deeply recessed gypsum assemblies to structural steel. #10 shank, fine thread, drill point.',meta:'21 lb / 1M',env:'int'},
+  {sku:'1568',cat:'laminator',name:'Bugle Head Driller — #10 × 5"',desc:'Maximum-length laminator for deep multi-layer assemblies. Specialty fire-rated walls and extra-thick commercial assemblies requiring penetration through multiple board layers into structural steel.',meta:'24 lb / 1M',env:'int'},
 ];
-
+ 
 let activecat = 'all';
-
+ 
 function render() {
   const q = document.getElementById('search').value.toLowerCase();
   const filtered = data.filter(d => {
@@ -169,21 +198,26 @@ function render() {
     const matchQ = !q || d.sku.toLowerCase().includes(q) || d.name.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q);
     return matchCat && matchQ;
   });
-
+ 
   document.getElementById('count').textContent = filtered.length + ' fasteners shown';
-
+ 
   const byCat = {};
   filtered.forEach(d => { if (!byCat[d.cat]) byCat[d.cat] = []; byCat[d.cat].push(d); });
-
+ 
   let html = '';
   if (filtered.length === 0) {
-    html = '<div class="empty">No fasteners match your search.</div>';
+    html = '<div class="empty">No fasteners match your search. Try a different term or clear the filter.</div>';
   } else {
     const order = activecat === 'all' ? cats.map(c => c.id) : [activecat];
     order.forEach(cid => {
       if (!byCat[cid]) return;
       const ci = cats.find(c => c.id === cid);
-      html += `<div class="section"><div class="section-title"><span class="dot" style="background:${ci.color}"></span>${ci.label} <span style="font-weight:400;color:#bbb">(${byCat[cid].length})</span></div><div class="grid">`;
+      html += `<div class="section">
+        <div class="section-title">
+          <span class="dot" style="background:${ci.color}"></span>
+          ${ci.label} <span class="section-count">(${byCat[cid].length})</span>
+        </div>
+        <div class="grid">`;
       byCat[cid].forEach(d => {
         const tag = d.env === 'ext'
           ? '<span class="tag tag-ext">Exterior</span>'
@@ -202,21 +236,23 @@ function render() {
   }
   document.getElementById('output').innerHTML = html;
 }
-
+ 
 function buildFilters() {
   const row = document.getElementById('filters');
-  let html = `<span class="pill active" onclick="setcat('all',this)">All categories</span>`;
-  cats.forEach(c => { html += `<span class="pill" onclick="setcat('${c.id}',this)">${c.label}</span>`; });
+  let html = '<span class="pill active" onclick="setcat(\'all\',this)">All categories</span>';
+  cats.forEach(c => {
+    html += `<span class="pill" onclick="setcat('${c.id}',this)">${c.label}</span>`;
+  });
   row.innerHTML = html;
 }
-
+ 
 function setcat(id, el) {
   activecat = id;
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
   render();
 }
-
+ 
 buildFilters();
 render();
 </script>
